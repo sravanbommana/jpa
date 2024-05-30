@@ -15,11 +15,17 @@ public class App
     	EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
     	EntityManager manager = factory.createEntityManager();
     	manager.getTransaction().begin();
-    	Professor professor = new Professor();
-    	professor.setFirstName("Iris");
-    	professor.setLastName("Dawane");
-    	professor.setId(10);
-    	manager.persist(professor);
+    	OrderItem orderItem = new OrderItem();
+    	PurchaseOrder purchaseOrder = new PurchaseOrder();
+    	
+    	orderItem.setId(12);
+    	orderItem.setArticle("Test");
+    	orderItem.setQuantity("2lb");
+    	purchaseOrder.setAmount(20000);
+    	purchaseOrder.setCustomername("John");
+    	purchaseOrder.setId(200);
+    	manager.persist(purchaseOrder);
+    	manager.persist(orderItem);
     	manager.getTransaction().commit();
     	manager.close();
     }	
