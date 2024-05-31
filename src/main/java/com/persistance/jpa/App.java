@@ -2,9 +2,6 @@ package com.persistance.jpa;
 
 import jakarta.persistence.Persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 

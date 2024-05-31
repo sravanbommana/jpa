@@ -1,24 +1,24 @@
 package com.persistance.jpa;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
 
 @Entity
+@Table(name="purchase_order")
 public class PurchaseOrder {
 	@Id
-	//@GeneratedValue(strategy= GenerationType.AUTO) // Automatically generate value for id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY) //Easy to use but not best for performance optimization
-	/*@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="purchaseorder_generator") // Sequence Generator
-	@SequenceGenerator(name="purchaseorder_generator", sequenceName="purchaseorder_sequence")*/
-	@GeneratedValue(strategy=GenerationType.TABLE, generator="purchaseorder_generator")
-	@TableGenerator(name="purchaseorder_generator", table="order_table") // Table generator is deprecated
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="purchaseorder_generator") 
+	@SequenceGenerator(name="purchaseorder_generator", sequenceName="purchaseorder_sequence")
 	
 	private int id;
 	private double amount;
+	@Column(name="customer_name")
 	private String customername;
 
 	public int getId() {
