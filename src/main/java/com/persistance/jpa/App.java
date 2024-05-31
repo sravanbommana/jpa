@@ -15,6 +15,7 @@ public class App
     	PurchaseOrder purchaseOrder = new PurchaseOrder();
     	purchaseOrder.setAmount(20000);
     	purchaseOrder.setCustomername("John");
+			purchaseOrder.setStatus(OrderStatus.completed);
     	manager.persist(purchaseOrder);
     	manager.getTransaction().commit();
     	manager.close();
