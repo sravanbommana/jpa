@@ -19,7 +19,7 @@
 
 			<!-- DON'T USE THIS IN PRODUCTION -->
 			<!-- automatically drop and create required database tables -->
-			<property name="jakarta.persistence.schema-generation.database.action" value="update" />
+			<property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
 			
 				
 			<!-- database specific dialect -->
