@@ -10,42 +10,21 @@ import jakarta.persistence.Persistence;
 
 public class App 
 {
-	public static void main(String[] args) {
+	public static void main(String args[]) {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
-		EntityManager manager = factory.createEntityManager();
-		manager.getTransaction().begin();
-		
-		//Creating Professors
-		Professor professor = new Professor();
-		professor.setFirstName("Srinivasa");
-		professor.setLastName("Chari");
-		
-		//Creating Courses
-		Course javaCourse = new Course();
-		javaCourse.setDuration("6 months");
-		javaCourse.setName("Java");
-		
-		Course javaScriptCourse = new Course();
-		javaScriptCourse.setDuration("6 months");
-		javaScriptCourse.setName("JavaScript");
-		
-        // Associate Courses with the Professor
-		
-		javaCourse.setProfessor(professor);
-		javaScriptCourse.setProfessor(professor);
-		
-		
-		professor.getCourses().add(javaScriptCourse);
-		professor.getCourses().add(javaCourse);
-
-
-        // Persist entities
-		manager.persist(javaCourse);
-		manager.persist(javaScriptCourse);
-		manager.persist(professor);
-
-
-		manager.getTransaction().commit();
-		manager.close();
+		EntityManager entityManager = factory.createEntityManager();
+		entityManager.getTransaction().begin();
+		Manager manager = new Manager();
+		Department department = new Department();
+		department.setDeptManager("Raj Yogi");
+		department.setDeptName("Finance");
+		manager.setFirstName("Raj");
+		manager.setLastName("Yogi");
+		department.setManager(manager);
+		manager.setDepartment(department);
+		entityManager.persist(manager);
+		entityManager.persist(department);
+		entityManager.getTransaction().commit();
+		entityManager.close();
 	}
 }
