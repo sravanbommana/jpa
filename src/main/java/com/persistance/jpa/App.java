@@ -11,8 +11,15 @@ public class App
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
 		EntityManager manager = factory.createEntityManager();
 		manager.getTransaction().begin();
-		User user = new User();
-		manager.persist(user);
+		Employee emp = new Employee();
+		emp.setFirstName("John");
+		emp.setLastName("Doe");
+		Address address = new Address();
+		address.setCity("Richmond");
+		address.setStreetName("E Varsham Rd");
+		address.setZipCode("85050");
+		emp.setAddress(address);
+		manager.persist(emp);
 		manager.getTransaction().commit();
 		manager.close();
 	}
