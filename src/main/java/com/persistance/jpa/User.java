@@ -1,33 +1,26 @@
 package com.persistance.jpa;
 
-import jakarta.persistence.Column;
+import java.util.List;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
 
 @Entity
-@Table(name = "User")
 public class User {
-	
-	// To create a default value directly in the SQL table definition, we can use the @Column annotation and 
-	// set its columnDefinition parameter:
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "userId")
 	private int id;
+	private String name;
+	private String dlNumber;
 	
-	@Column(columnDefinition = "varchar(255) default 'John'") //Providing default value
-	private String firstName;
-	
-	private String lastName;
-	
-	@Column(columnDefinition = "boolean default false")
-	private boolean enrolled;
-	
-	@Column(columnDefinition = "integer default 25")
-	private int age;
+	//@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+
+	private List<Vehicle> vehicle;
 
 	public int getId() {
 		return id;
@@ -37,36 +30,30 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getDlNumber() {
+		return dlNumber;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setDlNumber(String dlNumber) {
+		this.dlNumber = dlNumber;
 	}
 
-	public boolean isEnrolled() {
-		return enrolled;
+	public List<Vehicle> getVehicle() {
+		return vehicle;
 	}
 
-	public void setEnrolled(boolean enrolled) {
-		this.enrolled = enrolled;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
+	public void setVehicle(List<Vehicle> vehicle) {
+		this.vehicle = vehicle;
 	}
 	
+	
+
 }
