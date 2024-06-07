@@ -5,24 +5,29 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PostPersist;
-import jakarta.persistence.PostRemove;
-import jakarta.persistence.PostUpdate;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreRemove;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "User")
 public class User {
+	
+	// To create a default value directly in the SQL table definition, we can use the @Column annotation and 
+	// set its columnDefinition parameter:
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "userId")
 	private int id;
+	
+	@Column(columnDefinition = "varchar(255) default 'John'") //Providing default value
 	private String firstName;
+	
 	private String lastName;
+	
+	@Column(columnDefinition = "boolean default false")
+	private boolean enrolled;
+	
+	@Column(columnDefinition = "integer default 25")
+	private int age;
 
 	public int getId() {
 		return id;
@@ -47,42 +52,21 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	public boolean isEnrolled() {
+		return enrolled;
+	}
+
+	public void setEnrolled(boolean enrolled) {
+		this.enrolled = enrolled;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 	
-	@PrePersist
-	public void logNewUserAttempt() {
-	    System.out.println("Attempting to add new user with username: " + firstName);
-	}
-	    
-	@PostPersist
-	public void logNewUserAdded() {
-		 System.out.println("Added user '" + firstName + "' with ID: " + id);
-	}
-	
-	@PreRemove
-	public void logUserRemovalAttempt() {
-		System.out.println("Attempting to delete user: " + firstName);
-	}
-	    
-	@PostRemove
-	public void logUserRemoval() {
-		System.out.println("Deleted user: " + firstName);
-	}
-
-	@PreUpdate
-	public void logUserUpdateAttempt() {
-		System.out.println("Attempting to update user: " + firstName);
-	}
-
-	@PostUpdate
-	public void logUserUpdate() {
-		System.out.println("Updated user: " + firstName);
-	}
-
-	@PostLoad
-	public void logUserLoad() {
-	    String fullName = firstName + " " + lastName;
-		System.out.println("Post load: " + fullName);
-
-	}
-
 }

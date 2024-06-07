@@ -12,8 +12,6 @@ public class App
 		EntityManager manager = factory.createEntityManager();
 		manager.getTransaction().begin();
 		User user = new User();
-		user.setFirstName("Raja");
-		user.setLastName("Ram");
 		manager.persist(user);
 		manager.getTransaction().commit();
 		manager.close();
