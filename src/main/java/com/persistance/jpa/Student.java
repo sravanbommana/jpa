@@ -1,26 +1,24 @@
 package com.persistance.jpa;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
-public class Professor {
+public class Student {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "professor_generator")
-	@SequenceGenerator(name = "professor_generator", sequenceName = "professor_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_generator")
+	@SequenceGenerator(name = "student_generator", sequenceName = "student_sequence")
 	private int id;
 	private String firstName;
 	private String lastName;
-    @OneToMany(mappedBy="professor")
-	private List<Course> courses = new ArrayList<Course>();
+	@ManyToMany(mappedBy="student")
+	private List<Course> course;
 
 	public int getId() {
 		return id;
@@ -31,7 +29,7 @@ public class Professor {
 	}
 
 	public String getFirstName() {
-		return firstName; 
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -46,12 +44,11 @@ public class Professor {
 		this.lastName = lastName;
 	}
 
-	public List<Course> getCourses() {
-		return courses;
+	public List<Course> getCourse() {
+		return course;
 	}
 
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
+	public void setCourse(List<Course> course) {
+		this.course = course;
 	}
-
 }

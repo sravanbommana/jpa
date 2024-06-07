@@ -1,31 +1,26 @@
 package com.persistance.jpa;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+
 @Entity
 public class Course {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="course_generator")
-	@SequenceGenerator(name="course_generator", sequenceName="course_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_generator")
+	@SequenceGenerator(name = "student_generator", sequenceName = "student_sequence")
 	private int id;
-	private String name;
-	private String duration;
-	@ManyToOne
-    @JoinColumn(name="professor_id")
-	private Professor professor;
+	private String courseName;
+	private String courseDuration;
+	@ManyToMany
+	private List<Student> student;
 
-	public Professor getProfessor() {
-		return professor;
-	}
-
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
-	}
 
 	public int getId() {
 		return id;
@@ -35,19 +30,27 @@ public class Course {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getCourseName() {
+		return courseName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
-	public String getDuration() {
-		return duration;
+	public String getCourseDuration() {
+		return courseDuration;
 	}
 
-	public void setDuration(String duration) {
-		this.duration = duration;
+	public void setCourseDuration(String courseDuration) {
+		this.courseDuration = courseDuration;
+	}
+
+	public List<Student> getStudent() {
+		return student;
+	}
+
+	public void setStudent(List<Student> student) {
+		this.student = student;
 	}
 }
