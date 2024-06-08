@@ -2,6 +2,7 @@ package com.persistance.jpa;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,8 +18,8 @@ public class User {
 	private String name;
 	private String dlNumber;
 	
-	//@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	//@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 
 	private List<Vehicle> vehicle;
 
