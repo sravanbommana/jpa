@@ -4,34 +4,78 @@ package com.persistance.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.internal.build.AllowSysOut;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 public class App 
 {
+	//Run 1.4-cascade-entity branch to insert some data before running this 
 	public static void main(String[] args) {
+		App app = new App();
+		//app.getUserByIdWithTypedQuery(1);
+		//app.getUserByIdWithNativeQuery(52);
+		app.getUserByIdWithNamedQuery(52);
+	}
+	
+	//Example of Named Query
+	public void getUserByIdWithNamedQuery(int id) {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
 		EntityManager manager = factory.createEntityManager();
 		manager.getTransaction().begin();
-		User user = new User();
-		user.setName("Ravi");
-		user.setDlNumber("GDDS9776565656");
-		Vehicle vehicle1 = new Vehicle();
-		Vehicle vehicle2 = new Vehicle();
-		vehicle1.setChasisNum("UITT556567676868686");
-		vehicle1.setVehicleType("Four Wheeler");
-		vehicle2.setChasisNum("HFFR057656445633223");
-		vehicle2.setVehicleType("Two Wheeler");
-		List<Vehicle> list = new ArrayList<Vehicle>();
-		list.add(vehicle2);
-		list.add(vehicle1);
-		// Here we don't need to persist vehicle1 and vehicle 2 because we specified CASCADE in entity class
-		// This will automatically persist vehicle1 and vehicle 2
-		user.setVehicle(list);
-		vehicle1.setUser(user);
-		vehicle2.setUser(user);
-		manager.persist(user);
+		Query query = manager.createNamedQuery("User.findByUserID");
+		query.setParameter("id", id);
+		List<User> user = query.getResultList();
+		user.forEach(ele -> {
+			System.out.println(ele.getName());
+			System.out.println(ele.getDlNumber());
+			List<Vehicle> list = ele.getVehicle();
+			list.forEach(vehicle -> System.out.println(vehicle.getVehicleType()));
+		});
+		manager.getTransaction().commit();
+		manager.close();
+	}
+
+	
+	//Example of Native Query
+	public void getUserByIdWithNativeQuery(int id) {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
+		EntityManager manager = factory.createEntityManager();
+		manager.getTransaction().begin();
+		Query jpqlNativeQuery = manager.createNativeQuery("Select * from User where id=:id", User.class);
+		jpqlNativeQuery.setParameter("id", id);
+		List<User> user = jpqlNativeQuery.getResultList();
+		user.forEach(ele -> {
+			System.out.println(ele.getName());
+			System.out.println(ele.getDlNumber());
+			List<Vehicle> list = ele.getVehicle();
+			list.forEach(vehicle -> System.out.println(vehicle.getVehicleType()));
+		});
+		manager.getTransaction().commit();
+		manager.close();
+
+	}
+	
+	// Example of Typed Query
+	public void getUserByIdWithTypedQuery(int id) {
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
+		EntityManager manager = factory.createEntityManager();
+		manager.getTransaction().begin();
+		System.out.println("*****************************************************************");
+		TypedQuery<User> query = manager.createQuery("SELECT u FROM User u where u.id=:id", User.class);
+		query.setParameter("id", id);
+		List<User> user = query.getResultList();
+		user.forEach(ele -> {
+			System.out.println(ele.getName());
+			System.out.println(ele.getDlNumber());
+			List<Vehicle> list = ele.getVehicle();
+			list.forEach(vehicle -> System.out.println(vehicle.getVehicleType()));
+		});
+		System.out.println("*****************************************************************");
 		manager.getTransaction().commit();
 		manager.close();
 	}

@@ -8,9 +8,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@NamedQuery(name="User.findByUserID", query="SELECT u FROM User u where u.id=:id")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +20,7 @@ public class User {
 	private String name;
 	private String dlNumber;
 	
-	@OneToMany(mappedBy="user", fetch=FetchType.LAZY, cascade= CascadeType.ALL)
+	@OneToMany(mappedBy="user", fetch=FetchType.EAGER, cascade= CascadeType.ALL)
 	//@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
 
 	private List<Vehicle> vehicle;
