@@ -23,14 +23,13 @@ public class App
 	
 
 	
-	// Example of Typed Query Positional
+	// Example of Typed Query using name
 	public void getUserByIdWithTypedQueryUsingPosition(int id) {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
 		EntityManager manager = factory.createEntityManager();
 		manager.getTransaction().begin();
-		System.out.println("*****************************************************************");
-		TypedQuery<User> query = manager.createQuery("SELECT u FROM User u where u.id=?1", User.class);
-		query.setParameter(1, id);
+		TypedQuery<User> query = manager.createQuery("SELECT u FROM User u where u.name=:name", User.class);
+		query.setParameter("name", "Ramu");
 		List<User> user = query.getResultList();
 		user.forEach(ele -> {
 			System.out.println(ele.getName());
@@ -47,11 +46,11 @@ public class App
 	public void getUserByIdWithTypedQueryUsingPositions() {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("my-persistence-unit");
 		EntityManager manager = factory.createEntityManager();
-		TypedQuery<User> typedQuery = manager.createQuery("SELECT u FROM User u where id IN ?1", User.class);
+		TypedQuery<User> typedQuery = manager.createQuery("SELECT u FROM User u where u.name IN (:name)", User.class);
 		List<String> list = new ArrayList<String>();
-		list.add("1");
-		list.add("52");
-		typedQuery.setParameter(1, list);
+		list.add("Ramu");
+		list.add("Ravi");
+		typedQuery.setParameter("name", list);
 		List<User> user = typedQuery.getResultList();
 		user.forEach(ele -> {
 			System.out.println(ele.getName());
